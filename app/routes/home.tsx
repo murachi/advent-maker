@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { Sweets } from "../advent/sweets";
+import { Calendar } from "../advent/calendar";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,5 +11,18 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <Welcome />;
+  const [sweetsItems, setSweetsItems] = useState<string[]>([]);
+  const [count, setCount] = useState<number>(0);
+
+  const doSweetsChange = (items: string[]) => {
+    console.log("doSweetsChange called");
+    console.log(items);
+    setSweetsItems(items);
+    setCount(prevCount => prevCount + 1);
+  };
+
+  return <>
+    <Sweets onChange={doSweetsChange} />
+    <Calendar items={sweetsItems} count={count} />
+  </>;
 }
